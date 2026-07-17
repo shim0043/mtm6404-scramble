@@ -33,3 +33,20 @@ function shuffle (src) {
 /**********************************************
  * YOUR CODE BELOW
  **********************************************/
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const wordList = [
+  'nickel',
+  'oxygen',
+  'xenon',
+  'copper',
+  'hydrogen',
+  'monoxide',
+  'silver',
+  'gold',
+  'lithium',
+  'carbon'
+];
+
+root.render(<App />);
