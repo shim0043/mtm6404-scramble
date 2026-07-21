@@ -122,6 +122,34 @@ function App() {
       setGuess('');
     }
   }
+
+  // game over condition
+  const isGameOver = strikes >= 3 || currentIndex >= wordList.length;
+
+  // pass function
+  function handlePass() {
+    if (passes > 0 && !isGameOver) {
+      setPasses(passes - 1);
+      setFeedback('passed');
+
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+
+      if (nextIndex < wordList.length) {
+        setScrambledWord(shuffle(wordList[nextIndex]));
+      }
+    }
+  }
+
+  // restart function
+  function handleRestart() {
+    setPoints(0);
+    setStrikes(0);
+    setCurrentIndex(0);
+    setScrambledWord(shuffle(wordList[0]));
+    setFeedback('');
+    setGuess('');
+  }
 }
 
 root.render(<App />);
