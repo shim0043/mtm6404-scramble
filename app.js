@@ -95,6 +95,33 @@ function App() {
   React.useEffect(function() {
     localStorage.setItem('scrambledWord', scrambledWord);
   }, [scrambledWord]);
+
+  // event handler
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    if (guess.trim() === "") return;
+
+    const currentCorrectWord = wordList[currentIndex];
+
+    if (guess.toLowerCase().trim() === currentCorrectWord.toLowerCase()) {
+      setPoints(points + 1);
+      setFeedback('correct');
+      setGuess('');
+
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+
+      if (nextIndex < wordList.length) {
+        setScrambledWord(shuffle(wordList[nextIndex]));
+      }
+    } else {
+      const updatedStrikes = strikes + 1;
+      setStrikes(updatedStrikes);
+      setFeedback('wrong');
+      setGuess('');
+    }
+  }
 }
 
 root.render(<App />);
