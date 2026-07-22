@@ -145,11 +145,100 @@ function App() {
   function handleRestart() {
     setPoints(0);
     setStrikes(0);
+    setPasses(3);
     setCurrentIndex(0);
     setScrambledWord(shuffle(wordList[0]));
     setFeedback('');
     setGuess('');
+
+    localStorage.removeItem('points');
+    localStorage.removeItem('strikes');
+    localStorage.removeItem('passes');
+    localStorage.removeItem('currentIndex');
+    localStorage.removeItem('scrambledWord');
   }
+
+  // app render
+  return (
+    <div className="scramble-container">
+      <h1 className="scramble-title">
+        Welcome to Scramble.
+      </h1>
+
+      <div className="scoreboard">
+        <div className="points">
+          <div className="score">{points}</div>
+          <div className="score-label">POINTS</div>
+        </div>
+
+        <div className="strikes">
+          <div className="score">{strikes}</div>
+          <div className="score-label">STRIKES</div>
+        </div>
+      </div>
+
+      <div className="feedback-container">
+        {feedback === 'correct' && (
+          <div className="feedback feedback-correct">
+            Correct. Next word.
+          </div>
+        )}
+
+        {feedback === 'wrong' && !isGameOver && (
+          <div className="feedback feedback-wrong">
+            Wrong. Try again.
+          </div>
+        )}
+
+        {feedback === 'passed' && (
+          <div className="feedback feedback-passed">
+            You passed. Next word.
+          </div>
+        )}
+
+        {isGameOver && strikes >= 3 && (
+          <div className="feedback feedback-wrong">
+            You lost.
+          </div>
+        )}
+      </div>
+
+      <h2 className="scrambled-word">{scrambledWord}</h2>
+
+      <form onSubmit={handleFormSubmit} className="guess-form">
+        <input
+          type="text"
+          value={guess}
+          disabled={isGameOver}
+          onChange={function(e) {
+            setGuess(e.target.value);
+          }}
+          className="guess-input" />
+      </form>
+
+      <div className="button-container">
+        {!isGameOver && (
+          <button
+            onClick={handlePass}
+            disabled={passes <= 0}
+            className={`pass-button ${
+              passes > 0 ? 'available' : 'unavailable'
+            }`}>
+
+            <span className="pass-count">{passes}</span>
+            
+            Passes Remaining
+          </button>
+        )}
+
+        {isGameOver && (
+          <button onClick={handleRestart} className="restart-button">
+            Play, Again?
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
 
 root.render(<App />);
