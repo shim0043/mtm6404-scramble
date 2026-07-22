@@ -151,6 +151,7 @@ function App() {
     setFeedback('');
     setGuess('');
 
+    // deletes game data from local storagw
     localStorage.removeItem('points');
     localStorage.removeItem('strikes');
     localStorage.removeItem('passes');
@@ -226,7 +227,7 @@ function App() {
             }`}>
 
             <span className="pass-count">{passes}</span>
-            
+
             Passes Remaining
           </button>
         )}
